@@ -6,7 +6,7 @@ A Go client for the [VoIPBIN API](https://api.voipbin.net/docs/intro.html), enab
 Install `voipbin-go` using:
 
 ```sh
-go get github.com/yourusername/voipbin-go
+go get github.com/voipbin/voipbin-go
 ```
 
 ## 🌍 Quickstart

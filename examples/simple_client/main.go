@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
-	"voipbin-go"
-	"voipbin-go/gens/voipbin_client"
+
+	"github.com/voipbin/voipbin-go"
+	"github.com/voipbin/voipbin-go/gens/voipbin_client"
 )
 
 func main() {
