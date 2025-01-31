@@ -2,7 +2,8 @@ package voipbin
 
 import (
 	"net/http"
-	"voipbin-go/gens/voipbin_client"
+
+	"github.com/voipbin/voipbin-go/gens/voipbin_client"
 )
 
 const (

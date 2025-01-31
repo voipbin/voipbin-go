@@ -1,4 +1,4 @@
-module voipbin-go
+module github.com/voipbin/voipbin-go
 
 go 1.23.2
 
