@@ -18,8 +18,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"voipbin-go"
-	"voipbin-go/gens/voipbin_client"
+	"net/http"
+
+	voipbin "github.com/voipbin/voipbin-go"
+	"github.com/voipbin/voipbin-go/gens/voipbin_client"
 )
 
 func main() {
@@ -34,6 +36,10 @@ func main() {
 	tmp, err := client.GetCallsWithResponse(ctx, params)
 	if err != nil {
 		panic(err)
+	}
+
+	if tmp.HTTPResponse != nil && tmp.HTTPResponse.StatusCode != http.StatusOK {
+		panic("unexpected status code")
 	}
 
 	if tmp.JSON200 == nil {
