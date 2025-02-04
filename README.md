@@ -10,7 +10,7 @@ go get github.com/voipbin/voipbin-go
 ```
 
 ## 🌍 Quickstart
-Try sending yourself an SMS message by pasting the following code example into a sendsms.go file in the same directory where you installed twilio-go. Be sure to update the accountSid, authToken, and from phone number with values from your Twilio account. The to phone number can be your own mobile phone number.
+Try sending yourself an SMS message by pasting the following code example into a send_message in the examples directory where you installed voipbin-go. Be sure to update the accesskey and phone number value from your voipbin account.
 
 ```go
 package main
@@ -18,9 +18,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"net/http"
 
-	voipbin "github.com/voipbin/voipbin-go"
+	"github.com/voipbin/voipbin-go"
 	"github.com/voipbin/voipbin-go/gens/voipbin_client"
 )
 
@@ -32,23 +31,26 @@ func main() {
 
 	ctx := context.Background()
 
-	params := &voipbin_client.GetCallsParams{}
-	tmp, err := client.GetCallsWithResponse(ctx, params)
+	destinations := []voipbin_client.CommonAddress{
+		{
+			Target: voipbin.StrPtr("<your phone number here>"),
+		},
+	}
+	source := voipbin_client.CommonAddress{
+		Target: voipbin.StrPtr("+1234567892"),
+	}
+
+	body := voipbin_client.PostMessagesJSONRequestBody(voipbin_client.PostMessagesJSONBody{
+		Destinations: destinations,
+		Source:       source,
+		Text:         "Greetings from VoipBin!",
+	})
+
+	res, err := client.PostMessagesWithResponse(ctx, body)
 	if err != nil {
-		panic(err)
-	}
-
-	if tmp.HTTPResponse != nil && tmp.HTTPResponse.StatusCode != http.StatusOK {
-		panic("unexpected status code")
-	}
-
-	if tmp.JSON200 == nil {
-		panic("unexpected nil response")
-	}
-
-	fmt.Printf("Next page token: %s\n", *tmp.JSON200.NextPageToken)
-	for i, c := range *tmp.JSON200.Result {
-		fmt.Printf("Call %d: %v\n", i, *c.Id)
+		fmt.Printf("Error sending SMS message: %s\n", err)
+	} else {
+		fmt.Printf("Response. message_id: %s\n", *res.JSON200.Id)
 	}
 }
 ```
@@ -59,9 +61,6 @@ You can initiate a call using the voipbin_client.PostCallsJSONRequestBody() meth
 	destinations := []voipbin_client.CommonAddress{
 		{
 			Target: voipbin.StrPtr("+1234567890"),
-		},
-		{
-			Target: voipbin.StrPtr("+1234567891"),
 		},
 	}
 	source := voipbin_client.CommonAddress{
@@ -89,6 +88,8 @@ You can initiate a call using the voipbin_client.PostCallsJSONRequestBody() meth
 ```
 
 ## Getting help
-If you need help installing or using the library, please check the Twilio Support Help Center first, and file a support ticket if you don't find an answer to your question.
+If you need help installing or using the library, please check the voipbin's api documentation first, and file a support ticket if you don't find an answer to your question.
 
 If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo!
+
+* https://api.voipbin.net/docs/

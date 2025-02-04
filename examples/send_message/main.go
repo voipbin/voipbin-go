@@ -18,7 +18,7 @@ func main() {
 
 	destinations := []voipbin_client.CommonAddress{
 		{
-			Target: voipbin.StrPtr("+821021656521"),
+			Target: voipbin.StrPtr("<your phone number here>"),
 		},
 	}
 	source := voipbin_client.CommonAddress{
