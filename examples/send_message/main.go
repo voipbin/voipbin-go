@@ -18,11 +18,11 @@ func main() {
 
 	destinations := []voipbin_client.CommonAddress{
 		{
-			Target: voipbin.StrPtr("<your phone number here>"),
+			Target: voipbin.StringPtr("<your phone number here>"),
 		},
 	}
 	source := voipbin_client.CommonAddress{
-		Target: voipbin.StrPtr("+1234567892"),
+		Target: voipbin.StringPtr("+1234567892"),
 	}
 
 	body := voipbin_client.PostMessagesJSONRequestBody(voipbin_client.PostMessagesJSONBody{
