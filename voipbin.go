@@ -51,7 +51,7 @@ func withAccessKey(accessKey string) voipbin_client.ClientOption {
 	}
 }
 
-func StrPtr(s string) *string {
+func StringPtr(s string) *string {
 	return &s
 }
 

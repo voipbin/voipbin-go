@@ -18,14 +18,11 @@ func main() {
 
 	destinations := []voipbin_client.CommonAddress{
 		{
-			Target: voipbin.StrPtr("+1234567890"),
-		},
-		{
-			Target: voipbin.StrPtr("+1234567891"),
+			Target: voipbin.StringPtr("<your phone number here>"),
 		},
 	}
 	source := voipbin_client.CommonAddress{
-		Target: voipbin.StrPtr("+1234567892"),
+		Target: voipbin.StringPtr("+1234567892"),
 	}
 	flowID := "<your flow id here>"
 
