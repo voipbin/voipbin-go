@@ -51,6 +51,41 @@ func withAccessKey(accessKey string) voipbin_client.ClientOption {
 	}
 }
 
+// NewClientWithBasicAuth creates a new VoIPBIN API client using Basic Authentication.
+// This is used for service agent endpoints that require username/password authentication.
+func NewClientWithBasicAuth(username, password string) (voipbin_client.ClientWithResponsesInterface, error) {
+	res, err := voipbin_client.NewClientWithResponses(defaultServerAddress, withBasicAuth(username, password))
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+type basicAuthTransport struct {
+	username string
+	password string
+}
+
+// RoundTrip adds Basic Auth header to the request.
+func (t *basicAuthTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	newReq := req.Clone(req.Context())
+	newReq.SetBasicAuth(t.username, t.password)
+	return http.DefaultClient.Do(newReq)
+}
+
+func withBasicAuth(username, password string) voipbin_client.ClientOption {
+	return func(c *voipbin_client.Client) error {
+		c.Client = &http.Client{
+			Transport: &basicAuthTransport{
+				username: username,
+				password: password,
+			},
+		}
+		return nil
+	}
+}
+
 func StringPtr(s string) *string {
 	return &s
 }
